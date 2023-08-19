@@ -1,0 +1,16 @@
+@mixin flexCenter($direction: row) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: $direction;
+}
+
+@mixin maxWidth($width: 100%) {
+  width: 100%;
+  max-width: $width;
+}
+
+@mixin minWidth($Width: 100%) {
+  min-width: $Width;
+  width: $Width;
+}
