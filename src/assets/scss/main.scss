@@ -1,2 +1,10 @@
 @import "./mixins/mixins.scss";
 @import "./variables/variables.scss";
+
+.MuiDataGrid-footerContainer {
+  direction: ltr;
+}
+
+.MuiDataGrid-root {
+  width: 100%;
+}

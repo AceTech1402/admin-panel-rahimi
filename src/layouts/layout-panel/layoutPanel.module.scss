@@ -1,0 +1,17 @@
+@import "./../../assets/scss/main.scss";
+
+.layout_wrapper {
+  @include flexCenter();
+  align-items: stretch;
+  width: 100%;
+  height: 100vh;
+  background-color: #fafafa;
+  .body {
+    width: 100%;
+    height: 100vh;
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}

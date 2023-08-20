@@ -1,0 +1,72 @@
+@import "./../../assets/scss/main.scss";
+
+.sidebar_wrapper {
+  background-color: $bgSideBar;
+  @include flexCenter(column);
+  justify-content: flex-start;
+  @include minWidth(300px);
+  padding: 20px;
+  .sidebar {
+    @include flexCenter(column);
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    gap: 40px;
+    flex-grow: 1;
+    .profile {
+      @include flexCenter(column);
+      width: 100%;
+      text-align: center;
+      gap: 20px;
+      .image {
+        overflow: hidden;
+        border-radius: 50%;
+        @include minWidth(100px);
+        height: 100px;
+        @include flexCenter();
+      }
+      .name {
+        font-size: 20px;
+        font-weight: 600;
+      }
+    }
+    ul {
+      width: 100%;
+      gap: 5px;
+      @include flexCenter(column);
+      align-items: flex-start;
+      li {
+        
+        font-size: 16px;
+        font-weight: 500;
+        @include flexCenter();
+        justify-content: flex-start;
+        a {
+          padding: 10px;
+        }
+      }
+    }
+    button.logout {
+      background-color: transparent;
+      border: none;
+      font-family: inherit;
+      margin-top: auto;
+      @include flexCenter();
+      margin: auto auto 0;
+      font-size: 16px;
+      color: $redLogout;
+      cursor: pointer;
+      font-weight: 600;
+      outline: none;
+      gap: 10px;
+      .icon {
+        @include flexCenter();
+        @include minWidth(24px);
+        height: 24px;
+      }
+      p {
+        padding-bottom: 4px;
+      }
+    }
+  }
+}

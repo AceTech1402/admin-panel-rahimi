@@ -1,0 +1,59 @@
+@import "./../../assets/scss/main.scss";
+
+.users {
+  width: 100%;
+  @include flexCenter(column);
+  align-items: flex-start;
+  justify-content: flex-start;
+  > .header {
+    width: 100%;
+    padding: 10px 20px;
+    border-bottom: 1px solid $bgSideBar;
+  }
+  .body {
+    width: 100%;
+    @include flexCenter(column);
+    flex-grow: 1;
+    padding: 20px;
+    .tabs {
+      width: 100%;
+      @include flexCenter();
+      justify-content: flex-start;
+      ul {
+        @include flexCenter();
+        border-bottom: 1px solid $bgSideBar;
+        li {
+          padding: 10px;
+          font-size: 16px;
+          font-weight: 500;
+          position: relative;
+          cursor: pointer;
+
+          &.active {
+            &::after {
+              content: "";
+              position: absolute;
+              bottom: -2px;
+              height: 3px;
+              right: 0;
+              width: 100%;
+              background-color: #00292d;
+              z-index: 1;
+              border-radius: 20px;
+            }
+          }
+        }
+      }
+    }
+    .tables {
+      width: 100%;
+      @include flexCenter(column);
+      align-items: flex-start;
+      .header {
+        width: 100%;
+        gap: 10px;
+      }
+    }
+    
+  }
+}
