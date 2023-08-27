@@ -35,6 +35,22 @@ export const Sidebar: React.FC = () => {
               کلاب ها
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              to="/payments"
+              className={({ isActive }) => (isActive ? classes.active : "")}
+            >
+              پرداخت ها
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/posts"
+              className={({ isActive }) => (isActive ? classes.active : "")}
+            >
+              پست ها
+            </NavLink>
+          </li>
         </ul>
         <button className={classes.logout}>
           <div className={classes.icon}>

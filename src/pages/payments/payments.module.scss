@@ -1,0 +1,20 @@
+@import "./../../assets/scss/main.scss";
+
+.payments {
+  width: 100%;
+  @include flexCenter(column);
+  align-items: flex-start;
+  justify-content: flex-start;
+  > .header {
+    width: 100%;
+    padding: 10px 20px;
+    border-bottom: 1px solid $bgSideBar;
+  }
+  .body {
+    width: 100%;
+    @include flexCenter(column);
+    flex-grow: 1;
+    padding: 20px;
+    
+  }
+}
