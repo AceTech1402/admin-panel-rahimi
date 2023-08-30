@@ -26,6 +26,7 @@ body {
   @include flexCenter();
   justify-content: flex-start;
   color: $colorText;
+  overflow: hidden;
   direction: rtl;
 }
 

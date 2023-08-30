@@ -70,12 +70,12 @@
         @include maxWidth(100px);
         height: 40px;
         border-radius: 8px;
-        transition: .3s;
+        transition: 0.3s;
         p {
           margin-bottom: 2px;
         }
         &:hover {
-          opacity: .8;
+          opacity: 0.8;
         }
         cursor: pointer;
         &.accept {
@@ -133,6 +133,12 @@
     }
     * {
       font-family: inherit;
+    }
+    .empty_column {
+      width: 100%;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid $bgSideBar;
     }
   }
 }

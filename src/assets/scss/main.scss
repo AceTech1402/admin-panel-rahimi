@@ -2,11 +2,19 @@
 @import "./variables/variables.scss";
 
 .MuiDataGrid-footerContainer {
-  direction: ltr;
+  // direction: ltr; 
+  justify-content: flex-end !important;
 }
 
 .MuiDataGrid-root {
   width: 100%;
+}
+
+.MuiTablePagination-actions {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-left: 0 !important;
+  margin-right: 10px;
 }
 
 .tox-statusbar {

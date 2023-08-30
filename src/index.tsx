@@ -6,13 +6,27 @@ import reportWebVitals from "./reportWebVitals";
 
 import { BrowserRouter } from "react-router-dom";
 
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { faIR } from "@mui/material/locale";
+
+const theme = createTheme(
+  {
+    palette: {
+      primary: { main: "#1976d2" },
+    },
+  },
+  faIR
+);
+
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
