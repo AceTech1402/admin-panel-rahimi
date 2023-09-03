@@ -1,5 +1,6 @@
-import { useState } from "react";
-
+import { useState, useRef } from "react";
+import { Editor } from "@tinymce/tinymce-react";
+import { Editor as tinymce } from "tinymce";
 import { TinymceEditor } from "./../../../components/tinymce-editor/tinymceEditor";
 
 import classes from "./newTextPost.module.scss";
@@ -9,6 +10,7 @@ import UploadImageIcon from "./../../../assets/pics/upload-image-icon.svg";
 
 export const NewTextPost: React.FC = () => {
   const [initialValue, setInitialValue] = useState<string>("");
+  let editorRef = useRef<tinymce | null>(null);
   // const [editorState, setEditorState] = useState<EditorState>(
   //   EditorState.createWithContent(ContentState.createFromText("abcde"))
   // );
@@ -32,21 +34,38 @@ export const NewTextPost: React.FC = () => {
     <div className={classes.new_text_post}>
       <div className={classes.header}>
         <div className={classes.title}>
-          <h1>
-            ایجاد پست متنی
-          </h1>
+          <h1>ایجاد پست متنی</h1>
         </div>
-        
       </div>
       <div className={classes.body}>
-      <div className={classes.textarea}>
+        <div className={classes.textarea}>
           <div className={classes.title_input}>
             <input type="text" placeholder="عنوان پست متنی ..." />
           </div>
-          <TinymceEditor
+          {/* <TinymceEditor
             id="4"
             onEditorChange={changeEditorData}
             initialValue={initialValue}
+          /> */}
+
+          <Editor
+            apiKey="qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc"
+            onInit={(evt, editor) => (editorRef.current = editor)}
+            initialValue={initialValue}
+            init={{
+              height: 500,
+              menubar: false,
+              toolbar:
+                "undo redo | formatselect | " +
+                "bold italic forecolor backcolor fontsize | link image | media | table | alignleft aligncenter " +
+                "alignright alignjustify | bullist numlist outdent indent | preview | " +
+                "removeformat | help",
+              textcolor_rows: "4",
+              // content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+            }}
+            // onEditorChange={onEditorChange}
+            // id={1}
+            plugins="advlist autolink lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table code help wordcount"
           />
           <div className={classes.inputs}>
             <input type="text" placeholder="نویسنده" />
@@ -82,7 +101,7 @@ export const NewTextPost: React.FC = () => {
             </div>
           </div>
         </div>
-        </div>
+      </div>
     </div>
   );
 };

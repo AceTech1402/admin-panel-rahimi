@@ -21,7 +21,7 @@ export const Sidebar: React.FC = () => {
         <ul>
           <li>
             <NavLink
-              to="/"
+              to="/admin"
               className={({ isActive }) => (isActive ? classes.active : "")}
             >
               کاربران
@@ -29,7 +29,7 @@ export const Sidebar: React.FC = () => {
           </li>
           <li>
             <NavLink
-              to="/clubs"
+              to="/admin/clubs"
               className={({ isActive }) => (isActive ? classes.active : "")}
             >
               کلاب ها
@@ -37,7 +37,7 @@ export const Sidebar: React.FC = () => {
           </li>
           <li>
             <NavLink
-              to="/payments"
+              to="/admin/payments"
               className={({ isActive }) => (isActive ? classes.active : "")}
             >
               پرداخت ها
@@ -45,7 +45,7 @@ export const Sidebar: React.FC = () => {
           </li>
           <li>
             <NavLink
-              to="/posts"
+              to="/admin/posts"
               className={({ isActive }) => (isActive ? classes.active : "")}
             >
               پست ها

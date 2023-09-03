@@ -1,0 +1,10 @@
+@import "./../../assets/scss/main.scss";
+
+.auth_layout {
+  width: 100%;
+  height: 100vh;
+  @include flexCenter();
+  align-items: flex-start;
+  padding: 20px;
+  
+}

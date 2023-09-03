@@ -4,6 +4,8 @@ import classes from "./tableRejectedUsers.module.scss";
 import { SearchIcon } from "../../svgs/svgs";
 import { createRef, useState } from "react";
 
+import ProfileImage from "./../../../assets/pics/data-users-profile/profile-image.jpg"
+
 export const TableRejectedUsers: React.FC = () => {
   const [checking, setChecking] = useState<boolean>(false);
 
@@ -11,9 +13,16 @@ export const TableRejectedUsers: React.FC = () => {
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "#", width: 70 },
-    { field: "profileImage", headerName: "عکس", width: 130 },
-    { field: "userName", headerName: "اسم کاربر", width: 130 },
-    { field: "email", headerName: "ایمیل", width: 130 },
+    { field: "profileImage", headerName: "عکس", width: 100, renderCell : (params)=>{
+      return (
+        <div className={classes.image}>
+          <img src={params.row.avatar} alt={params.row.userName} />
+          {params.row.username}
+        </div>
+      )
+    }  },
+    { field: "userName", headerName: "اسم کاربر", width: 170 },
+    { field: "email", headerName: "ایمیل", width: 250 },
     // {
     //   field: "age",
     //   headerName: "Age",
@@ -32,15 +41,15 @@ export const TableRejectedUsers: React.FC = () => {
   ];
 
   const rows = [
-    { id: 1, profileImage: "Snow", userName: "Jon", email: 35 },
-    { id: 2, profileImage: "Lannister", userName: "Cersei", email: 42 },
-    { id: 3, profileImage: "Lannister", userName: "Jaime", email: 45 },
-    { id: 4, profileImage: "Stark", userName: "Arya", email: 16 },
-    { id: 5, profileImage: "Targaryen", userName: "Daenerys", email: null },
-    { id: 6, profileImage: "Melisandre", userName: "bardia", email: 150 },
-    { id: 7, profileImage: "Clifford", userName: "Ferrara", email: 44 },
-    { id: 8, profileImage: "Frances", userName: "Rossini", email: 36 },
-    { id: 9, profileImage: "Roxie", userName: "Harvey", email: 65 },
+    { id: 1, avatar: ProfileImage, userName: "Jon Snow", email: "example@gmail.com" },
+    { id: 2, avatar: ProfileImage, userName: "Cersei Lannister", email: "example@gmail.com" },
+    { id: 3, avatar: ProfileImage, userName: "Jaime Lannister", email: "example@gmail.com" },
+    { id: 4, avatar: ProfileImage, userName: "Arya Stark", email: "example@gmail.com" },
+    { id: 5, avatar: ProfileImage, userName: "Daenerys Targaryen", email: "example@gmail.com" },
+    { id: 6, avatar: ProfileImage, userName: "bardia Melisandre", email: "example@gmail.com" },
+    { id: 7, avatar: ProfileImage, userName: "Ferrara Clifford", email: "example@gmail.com" },
+    { id: 8, avatar: ProfileImage, userName: "Rossini Frances", email: "example@gmail.com" },
+    { id: 9, avatar: ProfileImage, userName: "Harvey Roxie", email: "example@gmail.com" },
   ];
 
   const changeSelectedRows = () => {

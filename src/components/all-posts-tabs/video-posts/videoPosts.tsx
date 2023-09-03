@@ -47,7 +47,7 @@ export const VideoPosts: React.FC = () => {
 
   return (
     <div className={classes.video_posts}>
-      <NavLink to="/posts/video-post" className={classes.new_post}>ایجاد پست جدید</NavLink>
+      <NavLink to="/admin/posts/video-post" className={classes.new_post}>ایجاد پست جدید</NavLink>
       <div className={classes.table}>
         <div
           className={classes.checkbox_wrapper}

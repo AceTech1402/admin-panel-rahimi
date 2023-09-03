@@ -47,7 +47,7 @@ export const Textposts: React.FC = () => {
 
   return (
     <div className={classes.text_posts}>
-      <NavLink to="/posts/text-post" className={classes.new_post}>
+      <NavLink to="/admin/posts/text-post" className={classes.new_post}>
         ایجاد پست جدید
       </NavLink>
       <div className={classes.table}>

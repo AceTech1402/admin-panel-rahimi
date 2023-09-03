@@ -1,0 +1,98 @@
+@import "./../../assets/scss/main.scss";
+
+.login {
+  width: 100%;
+  @include flexCenter(column);
+  gap: 20px;
+  .title {
+    @include flexCenter();
+    > * {
+      font-size: 30px;
+      font-weight: 500;
+    }
+  }
+  .message {
+    padding: 10px 20px;
+    border-radius: 10px;
+    @include flexCenter();
+    text-align: center;
+    font-weight: 500;
+     p {
+      margin-bottom: 4px;
+     }
+     &.success {
+      background-color: rgba($color: $successAnswer, $alpha: 0.2);
+      color: $successAnswer;
+     }
+     &.wrong {
+      background-color: rgba($color: $wrongAnswer, $alpha: 0.2);
+      color: $wrongAnswer;
+     }
+  }
+  form {
+    width: 100%;
+    @include flexCenter(column);
+    gap: 16px;
+    .input {
+      @include maxWidth(380px);
+      @include flexCenter(column);
+      gap: 5px;
+      align-items: flex-start;
+      label {
+        width: 100%;
+        @include flexCenter(column);
+        align-items: flex-start;
+        gap: 10px;
+        span {
+          font-size: 16px;
+          font-weight: 500;
+        }
+        input {
+          width: 100%;
+          font-family: inherit;
+          font-size: 16px;
+          font-weight: 500;
+          height: 34px;
+          border-radius: 10px;
+          padding: 0 10px;
+          outline: none;
+          border: 1px solid;
+          &:focus {
+            border-color: $bgSideBar;
+          }
+        }
+      }
+      span.error {
+        font-size: 12px;
+        color: $wrongAnswer;
+        font-weight: 500;
+      }
+    }
+    .buttons {
+      width: 100%;
+      @include flexCenter();
+      .button {
+        // @include maxWidth(100px);
+        padding: 0 20px;
+        height: 36px;
+        font-family: inherit;
+        background-color: $successAnswer;
+        color: #ffffff;
+        border: none;
+        border-radius: 10px;
+        @include flexCenter();
+        font-size: 14px;
+        font-weight: 500;
+        outline: none;
+        cursor: pointer;
+        transition: 0.3s;
+        p {
+          margin-bottom: 6px;
+        }
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+}

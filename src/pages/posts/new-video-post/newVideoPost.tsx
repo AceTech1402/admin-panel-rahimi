@@ -1,5 +1,6 @@
-import { useState } from "react";
-
+import { useRef, useState } from "react";
+import { Editor } from "@tinymce/tinymce-react";
+import { Editor as tinymce } from "tinymce";
 import { TinymceEditor } from "../../../components/tinymce-editor/tinymceEditor";
 
 import classes from "./newVideoPost.module.scss";
@@ -12,7 +13,7 @@ export const NewVideoPost: React.FC = () => {
   // const [editorState, setEditorState] = useState<EditorState>(
   //   EditorState.createWithContent(ContentState.createFromText("abcde"))
   // );
-
+  let editorRef = useRef<tinymce | null>(null);
   const changeEditorData = (initialValue: any) => {
     setInitialValue(initialValue);
     console.log(initialValue);
@@ -40,10 +41,30 @@ export const NewVideoPost: React.FC = () => {
           <div className={classes.title_input}>
             <input type="text" placeholder="عنوان پست ویدیویی ..." />
           </div>
-          <TinymceEditor
+          {/* <TinymceEditor
             id="4"
             onEditorChange={changeEditorData}
             initialValue={initialValue}
+          /> */}
+
+          <Editor
+            apiKey="qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc"
+            onInit={(evt, editor) => (editorRef.current = editor)}
+            initialValue={initialValue}
+            init={{
+              height: 500,
+              menubar: false,
+              toolbar:
+                "undo redo | formatselect | " +
+                "bold italic forecolor backcolor fontsize | link image | media | table | alignleft aligncenter " +
+                "alignright alignjustify | bullist numlist outdent indent | preview | " +
+                "removeformat | help",
+              textcolor_rows: "4",
+              // content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+            }}
+            // onEditorChange={onEditorChange}
+            // id={1}
+            plugins="advlist autolink lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table code help wordcount"
           />
           <div className={classes.buttons}>
             <button type="submit" className={`${classes.btn} ${classes.send}`}>

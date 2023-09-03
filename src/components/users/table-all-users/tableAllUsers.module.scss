@@ -142,3 +142,26 @@
     }
   }
 }
+
+.header {
+  text-align: center;
+  .title {
+    h2 {
+      font-size: 20px;
+    }
+  }
+}
+
+.image {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  min-width: 36px;
+  @include flexCenter();
+  overflow: hidden;
+  img {
+    width: 100%;
+    height: auto;
+    max-height: none;
+  }
+}
