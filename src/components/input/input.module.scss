@@ -1,0 +1,46 @@
+@import "./../../assets/scss/main.scss";
+
+.input {
+  @include maxWidth(380px);
+  @include flexCenter(column);
+  gap: 5px;
+  align-items: flex-start;
+  label {
+    width: 100%;
+    @include flexCenter(column);
+    align-items: flex-start;
+    gap: 10px;
+    span {
+      font-size: 16px;
+      font-weight: 500;
+    }
+    input {
+      width: 100%;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 400;
+      height: 34px;
+      border-radius: 10px;
+      padding: 0 10px 4px;
+      outline: none;
+      border: 1px solid #7c7b7b;
+      &:focus {
+        border-color: $bgSideBar;
+      }
+      &::placeholder {
+        color: $bgSideBar;
+      }
+    }
+  }
+  span.error {
+    font-size: 12px;
+    color: $wrongAnswer;
+    font-weight: 500;
+  }
+  &.full {
+    max-width: none;
+    input {
+      height: 40px;
+    }
+  }
+}

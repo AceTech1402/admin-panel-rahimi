@@ -5,8 +5,12 @@ import classes from "./sidebar.module.scss";
 //images
 import ProfileImage from "./../../assets/pics/sidebar/profile.png";
 import { LogoutIcon } from "../svgs/svgs";
+import useLogOut from "../../hooks/useLogOut";
 
 export const Sidebar: React.FC = () => {
+
+  const {logOut} = useLogOut();
+
   return (
     <div className={classes.sidebar_wrapper}>
       <div className={classes.sidebar}>
@@ -52,7 +56,7 @@ export const Sidebar: React.FC = () => {
             </NavLink>
           </li>
         </ul>
-        <button className={classes.logout}>
+        <button className={classes.logout} onClick={() => logOut()}>
           <div className={classes.icon}>
             <LogoutIcon />
           </div>

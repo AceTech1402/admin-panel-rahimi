@@ -12,106 +12,246 @@
   }
   .body {
     width: 100%;
-    @include flexCenter();
+    @include flexCenter(column);
     justify-content: flex-start;
     align-items: flex-start;
     flex-grow: 1;
     padding: 20px;
     gap: 20px;
-
-    .textarea {
-      @include maxWidth(1080px);
+    .category {
+      width: 100%;
       @include flexCenter(column);
-      gap: 20px;
-      .title_input {
-        width: 100%;
-        input {
-          height: 40px;
-          border: 1px solid $bgSideBar;
-          border-radius: 5px;
-          padding: 0 10px;
-          outline: none;
-          font-family: inherit;
-          width: 100%;
-          font-weight: 500;
+      align-items: flex-start;
+      gap: 10px;
+      .label {
+        font-size: 14px;
+        font-weight: 500;
+      }
+      @include flexCenter(column);
+      align-items: flex-start;
+      gap: 10px;
+      width: 100%;
+      justify-content: flex-start;
+      select {
+        @include maxWidth(380px);
+        height: 40px;
+        border-radius: 10px;
+        padding: 0 10px 4px;
+        font-family: inherit;
+        font-size: 16px;
+        font-weight: 400;
+        outline: none;
+        border: 1px solid #7c7b7b;
+        &:focus {
+          border-color: $bgSideBar;
         }
       }
-      .buttons {
-        width: 100%;
-        @include flexCenter();
+      button {
+        height: 40px;
+        padding: 0 10px 4px;
+        border-radius: 10px;
+        font-family: inherit;
+        white-space: nowrap;
+        outline: none;
+        background-color: $successAnswer;
+        border: none;
+        color: #ffffff;
+        font-weight: 400;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+    form {
+      @include flexCenter();
+      width: 100%;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: 20px;
+
+      .textarea_wrapper {
+        @include maxWidth(1080px);
+        @include flexCenter(column);
+        position: relative;
         gap: 20px;
-        .btn {
-          flex-grow: 1;
-          font-family: inherit;
-          height: 40px;
-          padding: 10px;
-          outline: none;
-          transition: 0.3s;
-          font-weight: 500;
-          cursor: pointer;
-          border: none;
-          border-radius: 5px;
-          &:hover {
-            opacity: 0.8;
+        .textarea {
+          width: 100%;
+          position: relative;
+          @include flexCenter(column);
+          align-items: flex-start;
+          gap: 10px;
+          span.error {
+            font-size: 12px;
+            font-weight: 500;
+            color: $wrongAnswer;
           }
-          &.send {
-            background-color: $successAnswer;
-            color: #fff;
+        }
+        .inputs {
+          width: 100%;
+          @include flexCenter();
+          align-items: flex-start;
+          justify-content: flex-start;
+          gap: 20px;
+        }
+        .buttons {
+          width: 100%;
+          @include flexCenter();
+          gap: 20px;
+          .btn {
+            flex-grow: 1;
+            font-family: inherit;
+            height: 40px;
+            padding: 10px;
+            outline: none;
+            transition: 0.3s;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            &:hover {
+              opacity: 0.8;
+            }
+            &.send {
+              background-color: $successAnswer;
+              color: #fff;
+            }
+          }
+        }
+      }
+      .upload_wrapper {
+        @include maxWidth(240px);
+        @include flexCenter(column);
+        justify-content: flex-start;
+        gap: 20px;
+        .cover {
+          width: 100%;
+          @include flexCenter();
+          border-radius: 10px;
+          border: 2px solid #eee;
+          overflow: hidden;
+          .default_image {
+            @include flexCenter();
+            width: 100%;
+          }
+        }
+        .buttons {
+          @include flexCenter(column);
+          gap: 20px;
+          width: 100%;
+          .btn {
+            position: relative;
+            transition: 0.3s;
+            width: 100%;
+            // overflow: hidden;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: 500;
+            height: 40px;
+            @include flexCenter();
+            padding: 10px;
+            input {
+              position: absolute;
+              z-index: 1;
+              left: 0;
+              top: 0;
+              cursor: pointer;
+              width: 100%;
+              height: 100%;
+              opacity: 0;
+            }
+            &.upload_image {
+              background-color: #2fa5ce;
+              color: #ffffff;
+              position: relative;
+              span.error {
+                position: absolute;
+                right: 0;
+                bottom: -20px;
+                font-size: 12px;
+                color: $wrongAnswer;
+                font-weight: 500;
+              }
+            }
+            &.upload_video {
+              background-color: #c7c7c7;
+            }
+            &:hover {
+              opacity: 0.8;
+            }
           }
         }
       }
     }
-    .upload_wrapper {
-      @include maxWidth(240px);
+  }
+}
+
+.modal {
+  width: 100%;
+  @include flexCenter(column);
+  gap: 20px;
+  .header {
+    width: 100%;
+    @include flexCenter();
+    text-align: center;
+    .title {
+      > * {
+        font-size: 24px;
+      }
+    }
+  }
+  .form {
+    width: 100%;
+    @include flexCenter(column);
+    align-items: flex-start;
+    gap: 10px;
+    .select {
+      width: 100%;
       @include flexCenter(column);
-      justify-content: flex-start;
-      gap: 20px;
-      .cover {
+      align-items: flex-start;
+      label {
         width: 100%;
-        @include flexCenter();
-        border-radius: 10px;
-        border: 2px solid #eee;
-        overflow: hidden;
-        .default_image {
-          @include flexCenter();
+        @include flexCenter(column);
+        align-items: flex-start;
+        gap: 10px;
+        span {
+          font-size: 16px;
+          font-weight: 500;
+        }
+        select {
+          padding: 0 10px 4px;
           width: 100%;
+          outline: none;
+          font-family: inherit;
+          height: 40px;
+          border-radius: 10px;
+          &:focus {
+            border-color: $bgSideBar;
+          }
         }
       }
-      .buttons {
-        @include flexCenter(column);
-        gap: 20px;
-        width: 100%;
-        .btn {
-          position: relative;
-          transition: 0.3s;
-          width: 100%;
-          overflow: hidden;
-          border-radius: 5px;
-          text-align: center;
-          font-weight: 500;
-          height: 40px;
-          @include flexCenter();
-          padding: 10px;
-          input {
-            position: absolute;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            cursor: pointer;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-          }
-          &.upload_image {
-            background-color: #2fa5ce;
-            color: #ffffff;
-          }
-          &.upload_video {
-            background-color: #c7c7c7;
-          }
-          &:hover {
-            opacity: 0.8;
-          }
+    }
+    .buttons {
+      width: 100%;
+      @include flexCenter();
+      button {
+        padding: 10px 20px 14px;
+        height: 40px;
+        @include flexCenter();
+        text-align: center;
+        color: #ffffff;
+        font-family: inherit;
+        font-size: 16px;
+        font-weight: 500;
+        background-color: $successAnswer;
+        border-radius: 10px;
+        border: none;
+        transition: 0.3s;
+        cursor: pointer;
+        &:hover {
+          opacity: 0.8;
         }
       }
     }

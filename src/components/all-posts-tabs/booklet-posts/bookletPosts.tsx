@@ -6,36 +6,39 @@ import {
   GridRowSelectionModel,
   GridValueGetterParams,
 } from "@mui/x-data-grid";
-import { useRef, useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect, useRef, useState } from "react";
 
-import classes from "./textPosts.module.scss";
+import classes from "./bookletPosts.module.scss";
 import useGetAllPosts from "../../../hooks/useGetAllposts";
-import useDeleteBlogs from "../../../hooks/blogs/useDeleteBlogs";
-import { Modal } from "./../../modal/modal";
-import { Input } from "./../../input/input";
+import useDeleteBooklets from "../../../hooks/boolets/useDeleteBooklets";
+import { Modal } from "../../modal/modal";
+import { Input } from "../../input/input";
 import useCategories from "../../../hooks/useCategories";
+import { useForm } from "react-hook-form";
 
 interface FormCreateCategory {
   name: string;
   // type: string;
 }
 
-export const TextPosts: React.FC = () => {
+export const BookletPosts: React.FC = () => {
   const navigate = useNavigate();
   const [checking, setChecking] = useState<boolean>(false);
   let categorySelect = useRef<HTMLSelectElement | null>(null);
-  const { getAllPosts, posts } = useGetAllPosts();
-  const { deleteBlogs } = useDeleteBlogs();
 
-  const [blogsId, setBlogsId] = useState<GridRowSelectionModel>([]);
+  const { getAllPosts, posts } = useGetAllPosts();
+  const [bookletsId, setBookletsId] = useState<GridRowSelectionModel>([]);
   const [selectedRows, setSelectedRow] = useState<GridRowSelectionModel>([]);
 
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = useForm<FormCreateCategory>();
+  const { deleteBooklets } = useDeleteBooklets();
+
+  const editItem = (booklets__id: string) => {
+    navigate("/admin/posts/booklet-post", {
+      state: {
+        booklets__id,
+      },
+    });
+  };
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "#", width: 70 },
@@ -54,7 +57,6 @@ export const TextPosts: React.FC = () => {
     },
     { field: "title", headerName: "عنوان", width: 130 },
     { field: "author", headerName: "نویسنده", width: 200 },
-    { field: "read_time", headerName: "زمان مطالعه", width: 200 },
     { field: "category_name", headerName: "اسم دسته بندی", width: 200 },
     {
       field: "actions",
@@ -64,7 +66,7 @@ export const TextPosts: React.FC = () => {
         return (
           <div className={classes.buttons}>
             <button
-              onClick={() => editItem(params.row.blogs__id)}
+              onClick={() => editItem(params.row.booklets__id)}
               className={`${classes.button} ${classes.edit}`}
             >
               Edit
@@ -100,17 +102,9 @@ export const TextPosts: React.FC = () => {
     console.log(categorySelect.current?.value);
   };
 
-  const editItem = (blogs__id: string) => {
-    navigate("/admin/posts/text-post", {
-      state: {
-        blogs__id,
-      },
-    });
-  };
-
   useEffect(() => {
-    getAllCategoriesOfOneType("blogs");
-    getAllPosts("blogs");
+    getAllCategoriesOfOneType("booklets");
+    getAllPosts("booklets");
   }, []);
 
   useEffect(() => {
@@ -129,22 +123,29 @@ export const TextPosts: React.FC = () => {
     }
   }, [posts]);
 
+  const deletedSelectedRows = () => {
+    deleteBooklets(bookletsId);
+    console.log(bookletsId);
+    getAllPosts("booklets");
+  };
+
   useEffect(() => {
     console.log(selectedRows);
     let selectedDatas: any[] = [];
     selectedRows.forEach((row) => {
       if (posts) {
         let postId = posts.find((item) => item.id === row);
-        selectedDatas.push(postId.blogs__id);
+        selectedDatas.push(postId.booklets__id);
       }
     });
-    setBlogsId(selectedDatas);
+    setBookletsId(selectedDatas);
   }, [selectedRows]);
 
-  const deletedSelectedRows = () => {
-    deleteBlogs(blogsId);
-    getAllPosts("blogs");
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormCreateCategory>();
 
   const [modalStatus, setModalStatus] = useState<boolean>(false);
   const { createCategory, categories, getAllCategoriesOfOneType } =
@@ -156,7 +157,7 @@ export const TextPosts: React.FC = () => {
 
   const createCategoryFunc = (data: any) => {
     console.log(data);
-    createCategory(data.name, "blogs");
+    createCategory(data.name, "booklets");
     setModalStatus(false);
   };
 
@@ -193,7 +194,7 @@ export const TextPosts: React.FC = () => {
           </form>
         </div>
       </Modal>
-      <div className={classes.text_posts}>
+      <div className={classes.books_posts}>
         {/* <div className={classes.category}>
           <div className={classes.label}>
             <p>دسته بندی ها</p>
@@ -214,8 +215,8 @@ export const TextPosts: React.FC = () => {
             </button>
           </form>
         </div> */}
-        <NavLink to="/admin/posts/text-post" className={classes.new_post}>
-          ایجاد پست جدید
+        <NavLink to="/admin/posts/booklet-post" className={classes.new_post}>
+          ایجاد جزوه جدید
         </NavLink>
         {rows.length > 0 ? (
           <div className={classes.table}>
@@ -257,7 +258,7 @@ export const TextPosts: React.FC = () => {
               ) => {
                 console.log(details);
                 console.log(newSelection.values);
-                setBlogsId([]);
+                setBookletsId([]);
                 setSelectedRow(newSelection);
               }}
               // pageSizeOptions={[5, 10]}

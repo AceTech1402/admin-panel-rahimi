@@ -30,3 +30,24 @@ export const SearchIcon: React.FC = () => {
     </svg>
   );
 };
+
+export const ArrowICon: React.FC = () => {
+  return (
+    <svg
+      width="24"
+      height="25"
+      viewBox="0 0 24 25"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M4.07992 15.6138L10.5999 8.95794C11.3699 8.17189 12.6299 8.17189 13.3999 8.95794L19.9199 15.6138"
+        stroke="#7c7b7b"
+        strokeWidth="1.5"
+        strokeMiterlimit="10"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+};

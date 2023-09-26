@@ -1,67 +1,77 @@
-import { useEffect, useRef, useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { Input } from "../../../components/input/input";
 import { Editor } from "@tinymce/tinymce-react";
 import { Editor as tinymce } from "tinymce";
 import { TinymceEditor } from "../../../components/tinymce-editor/tinymceEditor";
 
-import classes from "./newVideoPost.module.scss";
+import classes from "./newBooksPost.module.scss";
 
-//images
+//image
 import UploadImageIcon from "./../../../assets/pics/upload-image-icon.svg";
-import { Input } from "../../../components/input/input";
-import { VideoItems, VideoPost } from "../../../types/types";
-import useCreateVideo from "../../../hooks/videos/useCreateVideo";
+import { BookPost } from "../../../types/types";
+import useCreateBook from "../../../hooks/books/useCreateBook";
+import useGetOneBook from "../../../hooks/books/useGetOneBook";
+import useUpdateBook from "../../../hooks/books/useUpdateBook";
 import { useLocation } from "react-router-dom";
-import useGetOneVideo from "../../../hooks/videos/useGetOneVideo";
-import useUpdateVideo from "../../../hooks/videos/useUpdateVideo";
-import { Modal } from "../../../components/modal/modal";
 import useCategories from "../../../hooks/useCategories";
+import { Modal } from "../../../components/modal/modal";
 
-interface FormCreateCategory {
-  name: string;
-  // type: string;
-}
-
-export const NewVideoPost: React.FC = () => {
+export const NewBooksPost: React.FC = () => {
   const location = useLocation();
-
-  const { loading, callAPiPostVideo } = useCreateVideo();
-  const [initialValue, setInitialValue] = useState<string>("");
   const [changeImage, setChangeImage] = useState<boolean>(false);
   const [cover, setCover] = useState<string>("");
-  const coverInput = useRef<HTMLInputElement | null>(null);
-  const [errorTextarea, setErrorTextArea] = useState<boolean>(false);
   const [description, setDescription] = useState<string>("");
-  const { getOneVideoPost, dataVideo } = useGetOneVideo();
-  const { updateVideo } = useUpdateVideo();
+  let editorRef = useRef<tinymce | null>(null);
+  let coverInput = useRef<HTMLInputElement | null>(null);
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    setValue,
+  } = useForm<BookPost>();
   // const [editorState, setEditorState] = useState<EditorState>(
   //   EditorState.createWithContent(ContentState.createFromText("abcde"))
   // );
-  const {
-    register,
-    formState: { errors, isSubmitted },
-    handleSubmit,
-    setValue,
-  } = useForm<VideoItems & FormCreateCategory>();
-  let editorRef = useRef<tinymce | null>(null);
-  // const changeEditorData = (initialValue: any) => {
-  //   // setInitialValue(initialValue);
-  //   console.log(initialValue);
-  // };
-
-  const log = () => {
-    console.log(initialValue);
-    // console.log(editorState)
-  };
+  const { callAPiPostBook, loading } = useCreateBook();
 
   // const onEditorStateChange = (editorState: EditorState) => {
   //   console.log(editorState)
   //   setEditorState(editorState)
   // }
 
-  const createNewVideo = (data: any) => {
-    if (dataVideo) {
-      console.log(dataVideo);
+  const { getOneBookPost, dataBook } = useGetOneBook();
+  const { updateBook } = useUpdateBook();
+
+  const submitBlog = (data: any) => {
+    if (dataBook) {
+      let dataSendVideoPost: BookPost;
+      let uploadedImage: any;
+      if (cover !== "") {
+        if (coverInput.current) {
+          if ((uploadedImage = coverInput.current.files))
+            uploadedImage = coverInput.current.files[0];
+          if (editorRef.current) {
+            setDescription(editorRef.current.getContent());
+          }
+          // setErrorTextArea(true);
+          // setErrorTextArea(false);
+
+          dataSendVideoPost = {
+            title: data.title,
+            cover: changeImage && uploadedImage,
+            description,
+            ...(categoryChoose !== "" &&
+              categoryChoose !== "default" && {
+                categories__id: categoryChoose,
+              }),
+            author: data.author,
+          };
+
+          updateBook(location.state.books__id, dataSendVideoPost);
+        }
+      }
+    } else {
       let dataSendVideoPost: any;
       let uploadedImage: any;
       if (cover !== "") {
@@ -71,56 +81,21 @@ export const NewVideoPost: React.FC = () => {
           if (editorRef.current) {
             setDescription(editorRef.current.getContent());
           }
-          if (description === "") {
-            setErrorTextArea(true);
-          } else if (description !== "") {
-            setErrorTextArea(false);
-
-            dataSendVideoPost = {
-              title: data.title,
-              cover: changeImage && uploadedImage,
-              description,
-              duration: data.duration,
-              ...(categoryChoose !== "" &&
-                categoryChoose !== "default" && {
-                  categories__id: categoryChoose,
-                }),
-              link: data.link,
-            };
-
-            updateVideo(location.state.videos__id, dataSendVideoPost);
-          }
-        }
-      }
-    } else {
-      let dataSendVideoPost: VideoPost;
-      let uploadedImage: any;
-      if (cover !== "") {
-        if (coverInput.current) {
-          if ((uploadedImage = coverInput.current.files))
-            uploadedImage = coverInput.current.files[0];
-          if (editorRef.current) {
-            setDescription(editorRef.current.getContent());
-          }
-          // if (description === "") {
-          //   setErrorTextArea(true);
-          // } else if (description !== "") {
-          setErrorTextArea(false);
+          // setErrorTextArea(true);
+          // setErrorTextArea(false);
 
           dataSendVideoPost = {
             title: data.title,
             cover: uploadedImage,
             description,
-            duration: data.duration,
             ...(categoryChoose !== "" &&
               categoryChoose !== "default" && {
                 categories__id: categoryChoose,
               }),
-            link: data.link,
+            author: data.author,
           };
 
-          callAPiPostVideo(dataSendVideoPost);
-          // }
+          callAPiPostBook(dataSendVideoPost);
         }
       }
     }
@@ -142,23 +117,25 @@ export const NewVideoPost: React.FC = () => {
   };
 
   useEffect(() => {
+    console.log(dataBook);
     if (location.state) {
-      if (!dataVideo) {
-        if (location.state.videos__id) {
-          getOneVideoPost(location.state.videos__id);
+      if (!dataBook) {
+        if (location.state.books__id) {
+          getOneBookPost(location.state.books__id);
         }
       }
-      if (dataVideo) {
-        console.log(dataVideo);
-        setCover(dataVideo.cover);
-        setValue("title", dataVideo.title);
-        setValue("link", dataVideo.link);
-        setValue("duration", dataVideo.duration);
-        setCategoryChoose(dataVideo.categories__id);
-        editorRef.current?.setContent(dataVideo.description);
+      if (dataBook) {
+        console.log(dataBook);
+        setCover(dataBook.cover);
+        setValue("title", dataBook.title);
+        setValue("author", dataBook.author);
+        setValue("description", dataBook.description);
+        setCategoryChoose(dataBook.categories__id);
+        // setValue("summary", dataBook.summary);
+        editorRef.current?.setContent(dataBook.description);
       }
     }
-  }, [dataVideo, editorRef]);
+  }, [dataBook, editorRef]);
 
   const [modalStatus, setModalStatus] = useState<boolean>(false);
   const { categories, createCategory, getAllCategoriesOfOneType } =
@@ -180,12 +157,12 @@ export const NewVideoPost: React.FC = () => {
   const createCategoryFunc = () => {
     if (nameCategoryInput.current)
       if (nameCategoryInput?.current?.value !== "")
-        createCategory(nameCategoryInput?.current?.value, "videos");
+        createCategory(nameCategoryInput?.current?.value, "books");
     setModalStatus(false);
   };
 
   useEffect(() => {
-    getAllCategoriesOfOneType("videos");
+    getAllCategoriesOfOneType("books");
   }, []);
 
   return (
@@ -198,10 +175,7 @@ export const NewVideoPost: React.FC = () => {
             </div>
           </div>
           <form className={classes.form}>
-            <Input
-              full={true}
-              label="اسم دسته بندی"
-            >
+            <Input full={true} label="اسم دسته بندی">
               <input type="text" ref={nameCategoryInput} />
             </Input>
             <div className={classes.buttons}>
@@ -216,10 +190,10 @@ export const NewVideoPost: React.FC = () => {
           </form>
         </div>
       </Modal>
-      <div className={classes.new_video_post}>
+      <div className={classes.new_text_post}>
         <div className={classes.header}>
           <div className={classes.title}>
-            <h1>ایجاد پست ویدیویی</h1>
+            <h1>ایجاد کتاب</h1>
           </div>
         </div>
         <div className={classes.body}>
@@ -245,69 +219,48 @@ export const NewVideoPost: React.FC = () => {
               <p>ایجاد دسته بندی جدید</p>
             </button>
           </div>
-          <form onSubmit={handleSubmit(createNewVideo)}>
-            <div className={classes.textarea_wrapper}>
+          <form className={classes.form} onSubmit={handleSubmit(submitBlog)}>
+            <div className={classes.textarea}>
               <Input full={true} message={errors.title && errors.title.message}>
                 <input
                   type="text"
-                  placeholder="عنوان پست ویدیویی ..."
-                  {...register("title", { required: "عنوان را وارد کنید" })}
+                  placeholder="عنوان کتاب ..."
+                  {...register("title", { required: "عنوان را انتخاب کنید" })}
                 />
               </Input>
-
               {/* <TinymceEditor
             id="4"
-            
+            onEditorChange={changeEditorData}
             initialValue={initialValue}
           /> */}
 
-              <div className={classes.textarea}>
-                <Editor
-                  apiKey="qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc"
-                  onInit={(evt, editor) => (editorRef.current = editor)}
-                  initialValue={initialValue}
-                  init={{
-                    height: 500,
-                    menubar: false,
-                    toolbar:
-                      "undo redo | formatselect | " +
-                      "bold italic forecolor backcolor fontsize | link image | media | table | alignleft aligncenter " +
-                      "alignright alignjustify | bullist numlist outdent indent | preview | " +
-                      "removeformat | help",
-                    textcolor_rows: "4",
-                    // content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-                  }}
-                  // onEditorChange={onEditorChange}
-                  // onEditorChange={changeEditorData}
-                  // id={1}
-                  plugins="advlist autolink lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table code help wordcount"
-                />
-                {errorTextarea && (
-                  <span className={classes.error}>
-                    لطفا متنه پست خود را وارد کنید.
-                  </span>
-                )}
-              </div>
+              <Editor
+                apiKey="qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc"
+                onInit={(evt, editor) => (editorRef.current = editor)}
+                init={{
+                  height: 500,
+                  menubar: false,
+                  toolbar:
+                    "undo redo | formatselect | " +
+                    "bold italic forecolor backcolor fontsize | link image | media | table | alignleft aligncenter " +
+                    "alignright alignjustify | bullist numlist outdent indent | preview | " +
+                    "removeformat | help",
+                  textcolor_rows: "4",
+                  // content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                }}
+                // onEditorChange={onEditorChange}
+                // id={1}
+                plugins="advlist autolink lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table code help wordcount"
+              />
               <div className={classes.inputs}>
                 <Input
                   full={true}
-                  message={errors.duration && errors.duration.message}
+                  message={errors.author && errors.author.message}
                 >
                   <input
                     type="text"
-                    {...register("duration", {
-                      required: "زمان فیلم را مشخص کنید",
-                    })}
-                    placeholder="زمان فیلم"
-                  />
-                </Input>
-                <Input full={true} message={errors.link && errors.link.message}>
-                  <input
-                    type="text"
-                    {...register("link", {
-                      required: "لینک ویدیو را قرار بدهید",
-                    })}
-                    placeholder="لینک ویدیو"
+                    placeholder="نویسنده"
+                    {...register("author", { required: "نویسنده کیست؟" })}
                   />
                 </Input>
               </div>
@@ -316,20 +269,20 @@ export const NewVideoPost: React.FC = () => {
                   type="submit"
                   className={`${classes.btn} ${classes.send}`}
                 >
-                  {dataVideo ? <p>ویرایش</p> : <p>انتشار</p>}
+                  {dataBook ? <p>ویرایش</p> : <p>انتشار</p>}
                 </button>
                 {/* <button
-                type="button"
-                className={`${classes.btn} ${classes.replace}`}
-              >
-                جایگذاری لینک
-              </button> */}
+              type="button"
+              className={`${classes.btn} ${classes.replace}`}
+            >
+              جایگذاری لینک
+            </button> */}
               </div>
             </div>
             <div className={classes.upload_wrapper}>
               <div className={classes.cover}>
                 <div className={classes.default_image}>
-                  <img src={cover !== "" ? cover : UploadImageIcon} alt="" />
+                  <img src={cover ? cover : UploadImageIcon} alt="" />
                 </div>
                 <div className={classes.image}></div>
               </div>
@@ -346,11 +299,6 @@ export const NewVideoPost: React.FC = () => {
                     onChange={() => changeCover()}
                   />
                   <p>آپلود کاور</p>
-                  {isSubmitted && cover === "" && (
-                    <span className={classes.error}>
-                      لطفا کاور پست را انتخاب کنید
-                    </span>
-                  )}
                 </div>
               </div>
             </div>

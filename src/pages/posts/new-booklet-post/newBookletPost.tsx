@@ -5,86 +5,65 @@ import { Editor } from "@tinymce/tinymce-react";
 import { Editor as tinymce } from "tinymce";
 import { TinymceEditor } from "../../../components/tinymce-editor/tinymceEditor";
 
-import classes from "./newTextPost.module.scss";
+import classes from "./newBookletPost.module.scss";
 
 //image
 import UploadImageIcon from "./../../../assets/pics/upload-image-icon.svg";
-import { BlogPost } from "../../../types/types";
-import useCreateBlog from "../../../hooks/blogs/useCreateBlog";
-import useGetOneBlog from "../../../hooks/blogs/useGetOneBlog";
-import useUpdateBlog from "../../../hooks/blogs/useUpdateBlog";
+import { BookletPost } from "../../../types/types";
+import useCreateBooklet from "../../../hooks/boolets/useCreateBooklet";
 import { useLocation } from "react-router-dom";
-import { Modal } from "../../../components/modal/modal";
+import useGetOneBooklet from "../../../hooks/boolets/useGetOneBooklet";
+import useUpdateBooklet from "../../../hooks/boolets/useUpdateBooklet";
 import useCategories from "../../../hooks/useCategories";
+import { Modal } from "../../../components/modal/modal";
 
-export const NewTextPost: React.FC = () => {
+export const NewBookletPost: React.FC = () => {
   const location = useLocation();
-  const [changeImage, setChangeImage] = useState<boolean>(false);
+  const [textPdf, setTextPdf] = useState<string>("");
   const [cover, setCover] = useState<string>("");
   const [description, setDescription] = useState<string>("");
+  const [initialValue, setInitialValue] = useState<string>("");
   let editorRef = useRef<tinymce | null>(null);
+  let pdf_input = useRef<HTMLInputElement | null>(null);
   let coverInput = useRef<HTMLInputElement | null>(null);
   const {
     register,
     formState: { errors },
     handleSubmit,
     setValue,
-  } = useForm<BlogPost>();
+  } = useForm<BookletPost>();
   // const [editorState, setEditorState] = useState<EditorState>(
   //   EditorState.createWithContent(ContentState.createFromText("abcde"))
   // );
-  const { callAPiPostBlog, loading } = useCreateBlog();
-  const { getOneBlogPost, dataBlog } = useGetOneBlog();
-  const { updateBlog } = useUpdateBlog();
+  const { dataBooklet, getOneBookletPost } = useGetOneBooklet();
+
+  const { callAPiPostBooklet, loading } = useCreateBooklet();
+
+  const log = () => {
+    console.log(initialValue);
+    // console.log(editorState)
+  };
 
   // const onEditorStateChange = (editorState: EditorState) => {
   //   console.log(editorState)
   //   setEditorState(editorState)
   // }
 
-  const submitBlog = (data: any) => {
-    if (dataBlog) {
-      console.log(dataBlog);
-      let dataSendVideoPost: any;
+  const { updateBooklet } = useUpdateBooklet();
+
+  const submitBooklet = (data: any) => {
+    if (dataBooklet) {
+      let dataSendVideoPost: BookletPost;
       let uploadedImage: any;
-      if (cover !== "") {
-        if (coverInput.current) {
-          if ((uploadedImage = coverInput.current.files))
+      let uploadPdf: any;
+      if (cover !== "" && textPdf !== "") {
+        if (coverInput.current && pdf_input.current) {
+          if (coverInput.current.files)
             uploadedImage = coverInput.current.files[0];
           if (editorRef.current) {
             setDescription(editorRef.current.getContent());
           }
-          if (description === "") {
-            // setErrorTextArea(true);
-          } else if (description !== "") {
-            // setErrorTextArea(false);
-
-            dataSendVideoPost = {
-              title: data.title,
-              cover: changeImage && uploadedImage,
-              body: description,
-              read_time: data.read_time,
-              summary: data.summary,
-              ...(categoryChoose !== "" &&
-                categoryChoose !== "default" && {
-                  categories__id: categoryChoose,
-                }),
-              author: data.author,
-            };
-
-            updateBlog(location.state.blogs__id, dataSendVideoPost);
-          }
-        }
-      }
-    } else {
-      let dataSendVideoPost: BlogPost;
-      let uploadedImage: any;
-      if (cover !== "") {
-        if (coverInput.current) {
-          if (coverInput.current.files) {
-            console.log(coverInput.current.files[0]);
-            uploadedImage = coverInput.current.files[0];
-          }
+          if (pdf_input.current.files) uploadPdf = pdf_input.current.files[0];
           if (editorRef.current) {
             setDescription(editorRef.current.getContent());
           }
@@ -94,30 +73,60 @@ export const NewTextPost: React.FC = () => {
           dataSendVideoPost = {
             title: data.title,
             cover: uploadedImage,
-            body: description,
-            read_time: data.read_time,
-            summary: data.summary,
+            description,
+            author: data.author,
             ...(categoryChoose !== "" &&
               categoryChoose !== "default" && {
                 categories__id: categoryChoose,
               }),
-            author: data.author,
+            link: uploadPdf,
           };
 
-          callAPiPostBlog(dataSendVideoPost);
+          updateBooklet(location.state.booklets__id, dataSendVideoPost);
+        }
+      }
+    } else {
+      let dataSendVideoPost: BookletPost;
+      let uploadedImage: any;
+      let uploadPdf: any;
+      if (cover !== "" && textPdf !== "") {
+        if (coverInput.current && pdf_input.current) {
+          if (coverInput.current.files)
+            uploadedImage = coverInput.current.files[0];
+          if (editorRef.current) {
+            setDescription(editorRef.current.getContent());
+          }
+          if (pdf_input.current.files) uploadPdf = pdf_input.current.files[0];
+          if (editorRef.current) {
+            setDescription(editorRef.current.getContent());
+          }
+          // setErrorTextArea(true);
+          // setErrorTextArea(false);
+
+          dataSendVideoPost = {
+            title: data.title,
+            cover: uploadedImage,
+            description,
+            author: data.author,
+            ...(categoryChoose !== "" &&
+              categoryChoose !== "default" && {
+                categories__id: categoryChoose,
+              }),
+            link: uploadPdf,
+          };
+
+          callAPiPostBooklet(dataSendVideoPost);
         }
       }
     }
   };
 
   const changeCover = () => {
-    setChangeImage(true);
     // setCover()
     if (coverInput.current) {
       // console.log(coverInput.current.value);
       //@ts-ignore
-      if (coverInput.current.files) {
-        console.log(coverInput.current.files[0]);
+      if (coverInput.current.files[0]) {
         //@ts-ignore
         setCover(URL.createObjectURL(coverInput.current.files[0]));
       } else {
@@ -126,28 +135,41 @@ export const NewTextPost: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    if (location.state) {
-      if (!dataBlog) {
-        if (location.state.blogs__id) {
-          getOneBlogPost(location.state.blogs__id);
+  const changePdfInput = () => {
+    if (pdf_input.current) {
+      // console.log(pdf_input.current.value);
+      //@ts-ignore
+      if (pdf_input.current.files) {
+        if (pdf_input.current.files[0]) {
+          setTextPdf(pdf_input.current.files[0].name);
+        } else {
+          setTextPdf("");
         }
-      }
-      if (dataBlog) {
-        console.log(dataBlog);
-        console.log(JSON.stringify(dataBlog.body).replaceAll('"', ""));
-        setCover(dataBlog.cover);
-        setValue("title", dataBlog.title);
-        setValue("author", dataBlog.author);
-        setValue("read_time", dataBlog.read_time);
-        setValue("summary", dataBlog.summary);
-        setCategoryChoose(dataBlog.categories__id);
-        editorRef.current?.setContent(
-          JSON.stringify(dataBlog.body).replaceAll('"', "")
-        );
+      } else {
+        setTextPdf("");
       }
     }
-  }, [dataBlog, editorRef]);
+  };
+
+  useEffect(() => {
+    if (location.state) {
+      if (!dataBooklet) {
+        if (location.state.booklets__id) {
+          getOneBookletPost(location.state.booklets__id);
+        }
+      }
+      if (dataBooklet) {
+        setCover(dataBooklet.cover);
+        setValue("title", dataBooklet.title);
+        setValue("author", dataBooklet.author);
+        setValue("description", dataBooklet.description);
+        setTextPdf(dataBooklet.link);
+        setCategoryChoose(dataBooklet.categories__id);
+        // setValue("summary", dataBooklet.summary);
+        editorRef.current?.setContent(dataBooklet.description);
+      }
+    }
+  }, [dataBooklet, editorRef]);
 
   const [modalStatus, setModalStatus] = useState<boolean>(false);
   const { categories, createCategory, getAllCategoriesOfOneType } =
@@ -169,12 +191,12 @@ export const NewTextPost: React.FC = () => {
   const createCategoryFunc = () => {
     if (nameCategoryInput.current)
       if (nameCategoryInput?.current?.value !== "")
-        createCategory(nameCategoryInput?.current?.value, "blogs");
+        createCategory(nameCategoryInput?.current?.value, "booklets");
     setModalStatus(false);
   };
 
   useEffect(() => {
-    getAllCategoriesOfOneType("blogs");
+    getAllCategoriesOfOneType("booklets");
   }, []);
 
   return (
@@ -205,7 +227,7 @@ export const NewTextPost: React.FC = () => {
       <div className={classes.new_text_post}>
         <div className={classes.header}>
           <div className={classes.title}>
-            <h1>ایجاد پست متنی</h1>
+            <h1>ایجاد جزوه</h1>
           </div>
         </div>
         <div className={classes.body}>
@@ -231,12 +253,12 @@ export const NewTextPost: React.FC = () => {
               <p>ایجاد دسته بندی جدید</p>
             </button>
           </div>
-          <form className={classes.form} onSubmit={handleSubmit(submitBlog)}>
-            <div className={classes.textarea_wrapper}>
+          <form className={classes.form} onSubmit={handleSubmit(submitBooklet)}>
+            <div className={classes.textarea}>
               <Input full={true} message={errors.title && errors.title.message}>
                 <input
                   type="text"
-                  placeholder="عنوان پست متنی ..."
+                  placeholder="عنوان جزوه ..."
                   {...register("title", { required: "عنوان را انتخاب کنید" })}
                 />
               </Input>
@@ -246,46 +268,25 @@ export const NewTextPost: React.FC = () => {
             initialValue={initialValue}
           /> */}
 
-              <div className={classes.body_wrapper}>
-                <div className={classes.summary}>
-                  <div className={classes.textarea_layout}>
-                    <label>
-                      <span>خلاصه</span>
-                      <textarea
-                        className={classes.textarea}
-                        {...register("summary", {
-                          required: "لطفا یه خلاصه برای این بلاگ مشخص کنید",
-                        })}
-                      ></textarea>
-                    </label>
-                    {errors.summary && (
-                      <span className={classes.error}>
-                        {errors.summary.message}
-                      </span>
-                    )}
-                  </div>
-                </div>
-                <div className={classes.textarea}>
-                  <Editor
-                    apiKey="qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc"
-                    onInit={(evt, editor) => (editorRef.current = editor)}
-                    init={{
-                      height: 500,
-                      menubar: false,
-                      toolbar:
-                        "undo redo | formatselect | " +
-                        "bold italic forecolor backcolor fontsize | link image | media | table | alignleft aligncenter " +
-                        "alignright alignjustify | bullist numlist outdent indent | preview | " +
-                        "removeformat | help",
-                      textcolor_rows: "4",
-                      // content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-                    }}
-                    // onEditorChange={onEditorChange}
-                    // id={1}
-                    plugins="advlist autolink lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table code help wordcount"
-                  />
-                </div>
-              </div>
+              <Editor
+                apiKey="qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc"
+                onInit={(evt, editor) => (editorRef.current = editor)}
+                initialValue={initialValue}
+                init={{
+                  height: 500,
+                  menubar: false,
+                  toolbar:
+                    "undo redo | formatselect | " +
+                    "bold italic forecolor backcolor fontsize | link image | media | table | alignleft aligncenter " +
+                    "alignright alignjustify | bullist numlist outdent indent | preview | " +
+                    "removeformat | help",
+                  textcolor_rows: "4",
+                  // content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                }}
+                // onEditorChange={onEditorChange}
+                // id={1}
+                plugins="advlist autolink lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table code help wordcount"
+              />
               <div className={classes.inputs}>
                 <Input
                   full={true}
@@ -297,25 +298,31 @@ export const NewTextPost: React.FC = () => {
                     {...register("author", { required: "نویسنده کیست؟" })}
                   />
                 </Input>
-                <Input
-                  full={true}
-                  message={errors.read_time && errors.read_time.message}
-                >
+                <div className={classes.upload_pdf}>
                   <input
-                    type="text"
-                    placeholder="مدت زمان مطالعه"
-                    {...register("read_time", {
-                      required: "مدت زمان مطالعه چقدر است؟",
-                    })}
+                    type="file"
+                    accept="application/pdf"
+                    ref={pdf_input}
+                    onChange={() => changePdfInput()}
                   />
-                </Input>
+                  <div className={classes.text}>
+                    {textPdf !== "" ? (
+                      <p>{textPdf}</p>
+                    ) : (
+                      <p>pdf خود را آپلود کنین</p>
+                    )}
+                  </div>
+                  <div className={classes.upload_booklet}>
+                    <p>آپلود</p>
+                  </div>
+                </div>
               </div>
               <div className={classes.buttons}>
                 <button
                   type="submit"
                   className={`${classes.btn} ${classes.send}`}
                 >
-                  {dataBlog ? <p>ویرایش</p> : <p>انتشار</p>}
+                  انتشار
                 </button>
                 {/* <button
               type="button"
@@ -341,8 +348,8 @@ export const NewTextPost: React.FC = () => {
                   <input
                     type="file"
                     accept="image/png, image/jpeg"
-                    ref={coverInput}
                     onChange={() => changeCover()}
+                    ref={coverInput}
                   />
                   <p>آپلود کاور</p>
                 </div>

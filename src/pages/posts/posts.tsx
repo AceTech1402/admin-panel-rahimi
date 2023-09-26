@@ -3,7 +3,9 @@ import { useState } from "react";
 import { TinymceEditor } from "../../components/tinymce-editor/tinymceEditor";
 import classes from "./posts.module.scss";
 import { VideoPosts } from "../../components/all-posts-tabs/video-posts/videoPosts";
-import { Textposts } from "../../components/all-posts-tabs/text-posts/textPosts";
+import { TextPosts } from "../../components/all-posts-tabs/text-posts/textPosts";
+import { BooksPosts } from "../../components/all-posts-tabs/books-posts/booksPosts";
+import { BookletPosts } from "../../components/all-posts-tabs/booklet-posts/bookletPosts";
 // import { ReactDraft } from "../../components/react-draft/reactDraft";
 // import { EditorState, ContentState } from "draft-js";
 
@@ -51,14 +53,30 @@ export const Posts: React.FC = () => {
             >
               <p>پست متنی</p>
             </li>
+            <li
+              className={tabs === "books" ? classes.active : ""}
+              onClick={() => setTabs("books")}
+            >
+              <p>کتاب ها</p>
+            </li>
+            <li
+              className={tabs === "booklet" ? classes.active : ""}
+              onClick={() => setTabs("booklet")}
+            >
+              <p>جزوات</p>
+            </li>
           </ul>
         </div>
       </div>
-      
+
       {tabs === "video" ? (
         <VideoPosts />
       ) : tabs === "text" ? (
-        <Textposts />
+        <TextPosts />
+      ) : tabs === "books" ? (
+        <BooksPosts />
+      ) : tabs === "booklet" ? (
+        <BookletPosts />
       ) : null}
     </div>
   );

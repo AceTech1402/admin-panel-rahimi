@@ -1,0 +1,47 @@
+@import "./../../assets/scss/main.scss";
+
+.select_box {
+  @include maxWidth(350px);
+  position: relative;
+  @include flexCenter(column);
+  z-index: 1;
+  .choose_item {
+    @include flexCenter();
+    justify-content: space-between;
+    padding: 0 10px;
+    height: 40px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    gap: 10px;
+    .icon {
+      @include minWidth(24px);
+      height: 24px;
+      @include flexCenter();
+      svg {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+      }
+    }
+  }
+  .list {
+    width: 100%;
+    position: absolute;
+    top: 120%;
+    opacity: 0;
+    visibility: hidden;
+    @include flexCenter(column);
+    align-items: flex-start;
+    gap: 5px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    transition: 0.3s;
+    z-index: 1;
+    li {
+      width: 100%;
+      padding: 10px;
+      border-bottom: 1px solid #7c7b7b;
+    }
+  }
+}

@@ -1,8 +1,9 @@
 import { useForm } from "react-hook-form";
 import classes from "./login.module.scss";
-import useLoginHook from "../../hooks/login";
+import useLoginHook from "../../hooks/useLogin";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Input } from "./../../components/input/input";
 
 interface FromValues {
   username: string;
@@ -53,34 +54,28 @@ export const Login: React.FC = () => {
       ) : null}
 
       <form onSubmit={handleSubmit(submitLogin)}>
-        <div className={classes.input}>
-          <label>
-            <span>نام کاربری</span>
-            <input
-              type="text"
-              {...register("username", {
-                required: "لطفا نام کاربری خود را وارد کنید",
-              })}
-            />
-          </label>
-          {errors.username && (
-            <span className={classes.error}>{errors.username.message}</span>
-          )}
-        </div>
-        <div className={classes.input}>
-          <label>
-            <span>رمز عبور</span>
-            <input
-              type="password"
-              {...register("password", {
-                required: "لطفا رمز عبور خود را وارد کنید",
-              })}
-            />
-          </label>
-          {errors.password && (
-            <span className={classes.error}>{errors.password.message}</span>
-          )}
-        </div>
+        <Input
+          message={errors.username && errors.username.message}
+          label="نام کاربری"
+        >
+          <input
+            type="text"
+            {...register("username", {
+              required: "لطفا نام کاربری خود را وارد کنید",
+            })}
+          />
+        </Input>
+        <Input
+          message={errors.password && errors.password.message}
+          label="رمز عبور"
+        >
+          <input
+            type="password"
+            {...register("password", {
+              required: "لطفا رمز عبور خود را وارد کنید",
+            })}
+          />
+        </Input>
         <div className={classes.buttons}>
           <button type="submit" className={classes.button}>
             {sending ? <p>در حال ورود ...</p> : <p>ورود</p>}

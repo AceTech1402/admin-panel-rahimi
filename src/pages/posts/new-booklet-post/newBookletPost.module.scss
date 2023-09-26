@@ -68,75 +68,73 @@
       flex-grow: 1;
       padding: 20px;
       gap: 20px;
-      .textarea_wrapper {
+      .textarea {
         @include maxWidth(1080px);
         @include flexCenter(column);
         gap: 20px;
-        .summary {
+        .title_input {
           width: 100%;
-          @include flexCenter(column);
-          .textarea_layout {
+          input {
+            height: 40px;
+            border: 1px solid $bgSideBar;
+            border-radius: 5px;
+            padding: 0 10px;
+            outline: none;
+            font-family: inherit;
             width: 100%;
-            @include flexCenter(column);
-            align-items: flex-start;
-            gap: 10px;
-            label {
-              width: 100%;
-              @include flexCenter(column);
-              align-items: flex-start;
-              gap: 10px;
-              span {
-                font-size: 16px;
-                font-weight: 500;
-              }
-              textarea.textarea {
-                width: 100%;
-                border-radius: 10px;
-                height: 250px;
-                resize: none;
-                font-family: inherit;
-                font-size: 16px;
-                font-weight: 400;
-                outline: none;
-                border: 1px solid #7c7b7b;
-                padding: 10px;
-                &:focus {
-                  border-color: $bgSideBar;
-                }
-              }
-            }
-            span.error {
-              font-size: 12px;
-              font-weight: 500;
-              color: $wrongAnswer;
-            }
-          }
-        }
-        .body_wrapper {
-          width: 100%;
-          @include flexCenter(column);
-          gap: 20px;
-          > .textarea {
-            width: 100%;
-          }
-          .title_input {
-            width: 100%;
-            input {
-              height: 40px;
-              border: 1px solid $bgSideBar;
-              border-radius: 5px;
-              padding: 0 10px;
-              outline: none;
-              font-family: inherit;
-              width: 100%;
-              font-weight: 500;
-            }
+            font-weight: 500;
           }
         }
         .inputs {
           @include flexCenter();
           width: 100%;
+          align-items: flex-start;
           gap: 20px;
+          .upload_pdf {
+            width: 100%;
+            position: relative;
+            @include flexCenter();
+            justify-content: flex-end;
+            padding: 5px;
+            border-radius: 10px;
+            border: 1px solid #7c7b7b;
+            height: 40px;
+            gap: 4px;
+            overflow: hidden;
+            .text {
+              font-size: 14px;
+              overflow: hidden;
+              font-weight: 500;
+              display: flex;
+              justify-content: flex-end;
+            }
+            .upload_booklet {
+              @include flexCenter();
+              flex-basis: 10%;
+              height: 100%;
+              min-width: 50px;
+              background-color: $successAnswer;
+              color: #ffffff;
+              font-size: 14px;
+              font-weight: 500;
+              @include maxWidth(100px);
+              border-radius: 5px;
+              transition: 0.3s;
+            }
+            input {
+              position: absolute;
+              left: 0;
+              top: 0;
+              width: 100%;
+              height: 100%;
+              z-index: 1;
+              opacity: 0;
+              cursor: pointer;
+              &:hover ~ .upload_booklet {
+                opacity: 0.8;
+              }
+            }
+          }
         }
         .buttons {
           width: 100%;

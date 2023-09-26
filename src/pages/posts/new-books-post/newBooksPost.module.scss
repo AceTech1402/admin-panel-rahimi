@@ -68,69 +68,21 @@
       flex-grow: 1;
       padding: 20px;
       gap: 20px;
-      .textarea_wrapper {
+      .textarea {
         @include maxWidth(1080px);
         @include flexCenter(column);
         gap: 20px;
-        .summary {
+        .title_input {
           width: 100%;
-          @include flexCenter(column);
-          .textarea_layout {
+          input {
+            height: 40px;
+            border: 1px solid $bgSideBar;
+            border-radius: 5px;
+            padding: 0 10px;
+            outline: none;
+            font-family: inherit;
             width: 100%;
-            @include flexCenter(column);
-            align-items: flex-start;
-            gap: 10px;
-            label {
-              width: 100%;
-              @include flexCenter(column);
-              align-items: flex-start;
-              gap: 10px;
-              span {
-                font-size: 16px;
-                font-weight: 500;
-              }
-              textarea.textarea {
-                width: 100%;
-                border-radius: 10px;
-                height: 250px;
-                resize: none;
-                font-family: inherit;
-                font-size: 16px;
-                font-weight: 400;
-                outline: none;
-                border: 1px solid #7c7b7b;
-                padding: 10px;
-                &:focus {
-                  border-color: $bgSideBar;
-                }
-              }
-            }
-            span.error {
-              font-size: 12px;
-              font-weight: 500;
-              color: $wrongAnswer;
-            }
-          }
-        }
-        .body_wrapper {
-          width: 100%;
-          @include flexCenter(column);
-          gap: 20px;
-          > .textarea {
-            width: 100%;
-          }
-          .title_input {
-            width: 100%;
-            input {
-              height: 40px;
-              border: 1px solid $bgSideBar;
-              border-radius: 5px;
-              padding: 0 10px;
-              outline: none;
-              font-family: inherit;
-              width: 100%;
-              font-weight: 500;
-            }
+            font-weight: 500;
           }
         }
         .inputs {

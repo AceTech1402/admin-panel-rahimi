@@ -8,90 +8,138 @@
   padding: 20px;
   @include flexCenter(column);
   align-items: flex-start;
-  .header {
+  // .header {
+  //   width: 100%;
+  //   @include flexCenter();
+  //   justify-content: flex-start;
+  //   gap: 10px;
+  //   .search {
+  //     position: relative;
+  //     @include flexCenter();
+  //     @include maxWidth(300px);
+  //     .button_search {
+  //       width: 20px;
+  //       height: 20px;
+  //       position: absolute;
+  //       cursor: pointer;
+  //       right: 10px;
+  //       @include flexCenter();
+  //       background-color: transparent;
+  //       border: none;
+  //       outline: none;
+  //       .icon {
+  //         width: 20px;
+  //         height: 20px;
+  //         @include flexCenter();
+  //         svg {
+  //           max-width: 100%;
+  //           max-height: 100%;
+  //           object-fit: contain;
+  //         }
+  //       }
+  //     }
+  //     input {
+  //       border-radius: 5px;
+  //       padding: 0 36px 4px 10px;
+  //       height: 40px;
+  //       width: 100%;
+  //       font-size: 16px;
+  //       font-family: inherit;
+  //       font-weight: 400;
+  //       outline: none;
+  //       border: 1px solid $bgSideBar;
+  //       background-color: transparent;
+  //       &::placeholder {
+  //         color: $bgSideBar;
+  //       }
+  //     }
+  //   }
+  //   .buttons {
+  //     @include flexCenter();
+  //     justify-content: flex-start;
+  //     gap: 10px;
+  //     flex-grow: 1;
+  //     .button {
+  //       background-color: transparent;
+  //       font-family: inherit;
+  //       font-weight: 500;
+  //       font-size: 15px;
+  //       outline: none;
+  //       border: 1px solid transparent;
+  //       flex-grow: 1;
+  //       @include maxWidth(100px);
+  //       height: 40px;
+  //       border-radius: 8px;
+  //       transition: .3s;
+  //       p {
+  //         margin-bottom: 2px;
+  //       }
+  //       &:hover {
+  //         opacity: .8;
+  //       }
+  //       cursor: pointer;
+  //       &.accept {
+  //         color: #ffffff;
+  //         background-color: $successAnswer;
+  //         border-color: $successAnswer;
+  //       }
+  //       &.reject {
+  //         color: #ffffff;
+  //         background-color: $wrongAnswer;
+  //         border-color: $wrongAnswer;
+  //       }
+  //       &.delete {
+  //         color: #ffffff;
+  //         background-color: $redLogout;
+  //         border-color: $redLogout;
+  //       }
+  //     }
+  //   }
+  // }
+  .category {
     width: 100%;
-    @include flexCenter();
-    justify-content: flex-start;
+    @include flexCenter(column);
+    align-items: flex-start;
     gap: 10px;
-    .search {
-      position: relative;
+    .label {
+      font-size: 14px;
+      font-weight: 500;
+    }
+    form {
       @include flexCenter();
-      @include maxWidth(300px);
-      .button_search {
-        width: 20px;
-        height: 20px;
-        position: absolute;
-        cursor: pointer;
-        right: 10px;
-        @include flexCenter();
-        background-color: transparent;
-        border: none;
-        outline: none;
-        .icon {
-          width: 20px;
-          height: 20px;
-          @include flexCenter();
-          svg {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-          }
-        }
-      }
-      input {
-        border-radius: 5px;
-        padding: 0 36px 4px 10px;
+      gap: 10px;
+      width: 100%;
+      justify-content: flex-start;
+      select {
+        @include maxWidth(380px);
         height: 40px;
-        width: 100%;
-        font-size: 16px;
+        border-radius: 10px;
+        padding: 0 10px 4px;
         font-family: inherit;
+        font-size: 16px;
         font-weight: 400;
         outline: none;
-        border: 1px solid $bgSideBar;
-        background-color: transparent;
-        &::placeholder {
-          color: $bgSideBar;
+        border: 1px solid #7c7b7b;
+        &:focus {
+          border-color: $bgSideBar;
         }
       }
-    }
-    .buttons {
-      @include flexCenter();
-      justify-content: flex-start;
-      gap: 10px;
-      flex-grow: 1;
-      .button {
-        background-color: transparent;
-        font-family: inherit;
-        font-weight: 500;
-        font-size: 15px;
-        outline: none;
-        border: 1px solid transparent;
-        flex-grow: 1;
-        @include maxWidth(100px);
+      button {
         height: 40px;
-        border-radius: 8px;
-        transition: .3s;
-        p {
-          margin-bottom: 2px;
-        }
-        &:hover {
-          opacity: .8;
-        }
+        padding: 0 10px 4px;
+        border-radius: 10px;
+        font-family: inherit;
+        white-space: nowrap;
+        outline: none;
+        background-color: $successAnswer;
+        border: none;
+        color: #ffffff;
+        font-weight: 400;
+        font-size: 16px;
         cursor: pointer;
-        &.accept {
-          color: #ffffff;
-          background-color: $successAnswer;
-          border-color: $successAnswer;
-        }
-        &.reject {
-          color: #ffffff;
-          background-color: $wrongAnswer;
-          border-color: $wrongAnswer;
-        }
-        &.delete {
-          color: #ffffff;
-          background-color: $redLogout;
-          border-color: $redLogout;
+        transition: 0.3s;
+        &:hover {
+          opacity: 0.8;
         }
       }
     }
@@ -105,44 +153,186 @@
     @include flexCenter();
     height: 40px;
     background-color: #cdcdcd;
+    transition: 0.3s;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+  .empty_table {
+    width: 100%;
+    @include flexCenter();
+    justify-content: flex-start;
+    font-size: 16px;
+    font-weight: 500;
+    border-top: 1px solid $bgSideBar;
+    padding-top: 10px;
+    margin-top: 10px;
   }
   .table {
     width: 100%;
     @include flexCenter(column);
     align-items: flex-start;
     gap: 10px;
-    .checkbox_wrapper {
-      position: relative;
-      gap: 10px;
+    .header_table {
+      width: 100%;
       @include flexCenter();
       justify-content: flex-start;
-      .checkbox {
-        border-radius: 5px;
-        width: 16px;
-        height: 16px;
-        border: 1px solid $successAnswer;
-        background-color: transparent;
+      gap: 20px;
+      .buttons {
+        @include flexCenter();
+        justify-content: flex-start;
+        gap: 20px;
+        .button {
+          padding: 5px 10px;
+          border-radius: 5px;
+          @include flexCenter();
+          font-size: 15px;
+          font-weight: 500;
+          transition: 0.3s;
+          &.delete {
+            background-color: $wrongAnswer;
+            color: #ffffff;
+          }
+          &:hover {
+            opacity: 0.8;
+          }
+        }
       }
-      p {
-        font-size: 16px;
-        font-weight: 500;
-      }
-      input {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        opacity: 0;
-        top: 0;
-        cursor: pointer;
-        right: 0;
-        z-index: 1;
-        &:checked ~ .checkbox {
-          background-color: $successAnswer;
+      .checkbox_wrapper {
+        position: relative;
+        gap: 10px;
+        @include flexCenter();
+        justify-content: flex-start;
+        .checkbox {
+          border-radius: 5px;
+          width: 16px;
+          height: 16px;
+          border: 1px solid $successAnswer;
+          background-color: transparent;
+        }
+        p {
+          font-size: 16px;
+          font-weight: 500;
+        }
+        input {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          opacity: 0;
+          top: 0;
+          cursor: pointer;
+          right: 0;
+          z-index: 1;
+          &:checked ~ .checkbox {
+            background-color: $successAnswer;
+          }
         }
       }
     }
     * {
       font-family: inherit;
     }
+  }
+}
+
+.modal {
+  width: 100%;
+  @include flexCenter(column);
+  gap: 20px;
+  .header {
+    width: 100%;
+    @include flexCenter();
+    text-align: center;
+    .title {
+      > * {
+        font-size: 24px;
+      }
+    }
+  }
+  .form {
+    width: 100%;
+    @include flexCenter(column);
+    align-items: flex-start;
+    gap: 10px;
+    .select {
+      width: 100%;
+      @include flexCenter(column);
+      align-items: flex-start;
+      label {
+        width: 100%;
+        @include flexCenter(column);
+        align-items: flex-start;
+        gap: 10px;
+        span {
+          font-size: 16px;
+          font-weight: 500;
+        }
+        select {
+          padding: 0 10px 4px;
+          width: 100%;
+          outline: none;
+          font-family: inherit;
+          height: 40px;
+          border-radius: 10px;
+          &:focus {
+            border-color: $bgSideBar;
+          }
+        }
+      }
+    }
+    .buttons {
+      width: 100%;
+      @include flexCenter();
+      button {
+        padding: 10px 20px 14px;
+        height: 40px;
+        @include flexCenter();
+        text-align: center;
+        color: #ffffff;
+        font-family: inherit;
+        font-size: 16px;
+        font-weight: 500;
+        background-color: $successAnswer;
+        border-radius: 10px;
+        border: none;
+        transition: 0.3s;
+        cursor: pointer;
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+}
+
+.image {
+  @include minWidth(40px);
+  height: 40px;
+  @include flexCenter();
+  overflow: hidden;
+  border-radius: 50%;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+button.button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  @include flexCenter();
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s;
+  &.edit {
+    background-color: #e0ad06;
+    color: #ffffff;
+  }
+  &:hover {
+    opacity: 0.8;
   }
 }
